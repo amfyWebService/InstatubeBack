@@ -1,12 +1,24 @@
 language: dart
+
+dart:
+  - 2.5.1
+  - stable
+  
 branches:
   only:
     - master
 
-addons:
-  sonarcloud:
-    organization: "amfy"
+env:
+  - DARTANALYZER_FLAGS=--fatal-warnings
 
-script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - pub run test -r expanded
+install:
+  - gem install coveralls-lcov
+
+script: ./travis.sh
+  
+after_success:
+  - coveralls-lcov var/lcov.info
+  
+cache:
+  directories:
+  - $HOME/.pub-cache
