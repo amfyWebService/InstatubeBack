@@ -25,6 +25,8 @@ class InstatubeServiceChannel extends ApplicationChannel {
   @override
   Controller get entryPoint {
     final router = Router();
+    
+    print("Hello Farsen");
 
     // Prefer to use `link` instead of `linkFunction`.
     // See: https://aqueduct.io/docs/http/request_controller/
