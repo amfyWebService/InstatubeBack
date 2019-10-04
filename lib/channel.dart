@@ -13,7 +13,8 @@ class InstatubeServiceChannel extends ApplicationChannel {
   /// This method is invoked prior to [entryPoint] being accessed.
   @override
   Future prepare() async {
-    logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+    logger.onRecord.listen(
+        (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
 
   /// Construct the request channel.
@@ -25,16 +26,14 @@ class InstatubeServiceChannel extends ApplicationChannel {
   @override
   Controller get entryPoint {
     final router = Router();
-    
+
     print("Hello Farsen");
 
     // Prefer to use `link` instead of `linkFunction`.
     // See: https://aqueduct.io/docs/http/request_controller/
-    router
-      .route("/healthcheck")
-      .linkFunction((request) async {
-        return Response.ok("Ok");
-      });
+    router.route("/healthcheck").linkFunction((request) async {
+      return Response.ok("Ok");
+    });
 
     return router;
   }

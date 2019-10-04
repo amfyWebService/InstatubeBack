@@ -2,8 +2,8 @@ import 'package:instatube_service/instatube_service.dart';
 
 Future main() async {
   final app = Application<InstatubeServiceChannel>()
-      ..options.configurationFilePath = "config.yaml"
-      ..options.port = 8888;
+    ..options.configurationFilePath = "config.yaml"
+    ..options.port = 8888;
 
   final count = Platform.numberOfProcessors ~/ 2;
   await app.start(numberOfInstances: count > 0 ? count : 1);

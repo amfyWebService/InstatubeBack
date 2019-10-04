@@ -21,12 +21,8 @@ export 'package:aqueduct/aqueduct.dart';
 ///
 class Harness extends TestHarness<InstatubeServiceChannel> {
   @override
-  Future onSetUp() async {
-
-  }
+  Future onSetUp() async {}
 
   @override
-  Future onTearDown() async {
-
-  }
+  Future onTearDown() async {}
 }
