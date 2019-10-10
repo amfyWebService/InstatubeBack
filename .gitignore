@@ -2,3 +2,6 @@
 .packagess
 .DS_Store
 .idea/
+var/
+test/.test_coverage.dart
+coverage_badge.svg
