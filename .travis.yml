@@ -30,4 +30,4 @@ before_install:
   - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - ssh-add ./clemongo
   - ssh -i ./clemongo ec2-user@$SERVER_IP_ADDRESS pwd
-  - touch test.txt
+  - ssh -i ./clemongo ec2-user@$SERVER_IP_ADDRESS touch tototidan.txt
