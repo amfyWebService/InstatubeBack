@@ -30,28 +30,28 @@ pub run test --reporter expanded
 
 # Gather coverage and upload to Coveralls.
 
-OBS_PORT=9292
-echo "Collecting coverage on port $OBS_PORT..."
+# OBS_PORT=9292
+# echo "Collecting coverage on port $OBS_PORT..."
 
-# Start tests in one VM.
-dart --disable-service-auth-codes \
---enable-vm-service=$OBS_PORT \
---pause-isolates-on-exit \
-test/test_main.dart &
+# # Start tests in one VM.
+# dart --disable-service-auth-codes \
+# --enable-vm-service=$OBS_PORT \
+# --pause-isolates-on-exit \
+# test/test_main.dart &
 
-# Run the coverage collector to generate the JSON coverage report.
-dart bin/collect_coverage.dart \
---port=$OBS_PORT \
---out=var/coverage.json \
---wait-paused \
---resume-isolates
+# # Run the coverage collector to generate the JSON coverage report.
+# dart bin/collect_coverage.dart \
+# --port=$OBS_PORT \
+# --out=var/coverage.json \
+# --wait-paused \
+# --resume-isolates
 
-echo "Generating LCOV report..."
-dart bin/format_coverage.dart \
---lcov \
---in=var/coverage.json \
---out=var/lcov.info \
---packages=.packages \
---report-on=lib
+# echo "Generating LCOV report..."
+# dart bin/format_coverage.dart \
+# --lcov \
+# --in=var/coverage.json \
+# --out=var/lcov.info \
+# --packages=.packages \
+# --report-on=lib
 
 
