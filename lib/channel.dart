@@ -35,6 +35,10 @@ class InstatubeServiceChannel extends ApplicationChannel {
       return Response.ok("Ok");
     });
 
+    router.route("/ping").linkFunction((request) async {
+      return Response.ok("ping ta mere");
+    });
+
     return router;
   }
 }
