@@ -20,8 +20,7 @@ Future<Null> main(List<String> arguments) async {
   final options = _parseArgs(arguments);
   await Chain.capture(() async {
     final coverage = await collect(options.serviceUri, options.resume,
-        options.waitPaused, options.includeDart, options.scopedOutput,
-        timeout: options.timeout);
+        options.waitPaused);
     options.out.write(json.encode(coverage));
     await options.out.close();
   }, onError: (dynamic error, Chain chain) {
@@ -87,7 +86,7 @@ Options _parseArgs(List<String> arguments) {
     exit(1);
   }
 
-  if (args['help']) {
+  if (args['help'] != null) {
     printUsage();
     exit(0);
   }
@@ -99,7 +98,7 @@ Options _parseArgs(List<String> arguments) {
     serviceUri = Uri.parse('http://${args['host']}:${args['port']}/');
   } else {
     try {
-      serviceUri = Uri.parse(args['uri']);
+      serviceUri = Uri.parse(args['uri'].toString());
     } on FormatException {
       fail('Invalid service URI specified: ${args['uri']}');
     }
@@ -112,12 +111,16 @@ Options _parseArgs(List<String> arguments) {
   if (args['out'] == 'stdout') {
     out = stdout;
   } else {
-    final outfile = File(args['out'])..createSync(recursive: true);
+    final outfile = File(args['out'].toString())..createSync(recursive: true);
     out = outfile.openWrite();
   }
   final timeout = (args['connect-timeout'] == null)
       ? null
-      : Duration(seconds: int.parse(args['connect-timeout']));
-  return Options(serviceUri, out, timeout, args['wait-paused'],
-      args['resume-isolates'], args['include-dart'], scopedOutput.toSet());
+      : Duration(seconds: int.parse(args['connect-timeout'].toString()));
+  final waitpaused= args['wait-paused'] != null?true:false;
+  final resumeisolates=  args['resume-isolates'] !=null ? true: false;
+  final includedart= args['include-dart'] !=null ? true: false;
+
+  return Options(serviceUri, out, timeout, waitpaused,
+      resumeisolates, includedart, scopedOutput.toSet());
 }

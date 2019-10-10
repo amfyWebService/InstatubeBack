@@ -139,12 +139,12 @@ Environment parseArgs(List<String> arguments) {
     exit(1);
   }
 
-  if (args['help']) {
+  if (args['help'] != null) {
     printUsage();
     exit(0);
   }
 
-  env.sdkRoot = args['sdk-root'];
+  env.sdkRoot = args['sdk-root'].toString();
   if (env.sdkRoot != null) {
     env.sdkRoot = p.normalize(p.join(p.absolute(env.sdkRoot), 'lib'));
     if (!FileSystemEntity.isDirectorySync(env.sdkRoot)) {
@@ -157,23 +157,23 @@ Environment parseArgs(List<String> arguments) {
     fail('Only one of --package-root or --packages may be specified.');
   }
 
-  env.packagesPath = args['packages'];
+  env.packagesPath = args['packages'].toString();
   if (env.packagesPath != null) {
     if (!FileSystemEntity.isFileSync(env.packagesPath)) {
       fail('Package spec "${args["packages"]}" not found, or not a file.');
     }
   }
 
-  env.pkgRoot = args['package-root'];
+  env.pkgRoot = args['package-root'].toString();
   if (env.pkgRoot != null) {
-    env.pkgRoot = p.absolute(p.normalize(args['package-root']));
+    env.pkgRoot = p.absolute(p.normalize(args['package-root'].toString()));
     if (!FileSystemEntity.isDirectorySync(env.pkgRoot)) {
       fail('Package root "${args["package-root"]}" is not a directory.');
     }
   }
 
   if (args['in'] == null) fail('No input files given.');
-  env.input = p.absolute(p.normalize(args['in']));
+  env.input = p.absolute(p.normalize(args['in'].toString()));
   if (!FileSystemEntity.isDirectorySync(env.input) &&
       !FileSystemEntity.isFileSync(env.input)) {
     fail('Provided input "${args["in"]}" is neither a directory nor a file.');
@@ -182,25 +182,26 @@ Environment parseArgs(List<String> arguments) {
   if (args['out'] == 'stdout') {
     env.output = stdout;
   } else {
-    final outpath = p.absolute(p.normalize(args['out']));
+    final outpath = p.absolute(p.normalize(args['out'].toString()));
     final outfile = File(outpath)..createSync(recursive: true);
     env.output = outfile.openWrite();
   }
 
-  env.reportOn = args['report-on'].isNotEmpty ? args['report-on'] : null;
 
-  env.bazel = args['bazel'];
-  env.bazelWorkspace = args['bazel-workspace'];
+  env.reportOn = (args['report-on'] != null ? args['report-on'] : null) as List<String>;
+
+  env.bazel = args['bazel'] as bool;
+  env.bazelWorkspace = args['bazel-workspace'] as String;
   if (env.bazelWorkspace.isNotEmpty && !env.bazel) {
     stderr.writeln('warning: ignoring --bazel-workspace: --bazel not set');
   }
 
   if (args['base-directory'] != null) {
-    env.baseDirectory = p.absolute(args['base-directory']);
+    env.baseDirectory = p.absolute(args['base-directory'] as String);
   }
 
-  env.lcov = args['lcov'];
-  if (args['pretty-print'] && env.lcov) {
+  env.lcov = args['lcov'] as bool;
+  if (args['pretty-print'] != null && env.lcov) {
     fail('Choose one of pretty-print or lcov output');
   }
   // Use pretty-print either explicitly or by default.
@@ -212,7 +213,7 @@ Environment parseArgs(List<String> arguments) {
     fail('Invalid worker count: $e');
   }
 
-  env.verbose = args['verbose'];
+  env.verbose = args['verbose'] as bool;
   return env;
 }
 
