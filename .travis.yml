@@ -17,7 +17,7 @@ install:
 script: ./travis.sh
   
 after_success:
-  - coveralls-lcov --repo-token $COVERALLS_TOKEN var/lcov.info
+  - coveralls-lcov --repo-token $COVERALLS_TOKEN coverage/lcov.info
   
 cache:
   directories:

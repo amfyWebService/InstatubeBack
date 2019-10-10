@@ -5,3 +5,5 @@
 var/
 test/.test_coverage.dart
 coverage_badge.svg
+
+coverage/lcov.info
