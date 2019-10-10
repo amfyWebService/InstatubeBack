@@ -28,6 +28,8 @@ dartanalyzer $DARTANALYZER_FLAGS \
 echo "Running tests..."
 pub run test --reporter expanded
 
+echo "Collecting coverage..."
+pub run test-coverage
 # Gather coverage and upload to Coveralls.
 
 # OBS_PORT=9292

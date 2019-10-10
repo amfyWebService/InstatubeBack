@@ -12,13 +12,11 @@ env:
   - DARTANALYZER_FLAGS=--fatal-warnings
 
 install:
-  - sudo apt-get install -y lcov
   - gem install coveralls-lcov
 
 script: ./travis.sh
   
 after_success:
-  - lcov --compat-libtool --directory . --capture --output-file var/lcov.info
   - coveralls-lcov var/lcov.info
   
 cache:
