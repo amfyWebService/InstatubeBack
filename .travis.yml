@@ -25,4 +25,11 @@ cache:
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_ae66d78e757d_key -iv $encrypted_ae66d78e757d_iv
-  - in clemongo.pem.enc -out ./clemongo.pem -d
+  - in clemongo.pem.enc -out ./clemongo -d
+  - ssh-add ./clemongo
+  - eval "$(ssh-agent -s)"
+  - chmod 600 ./clemongo
+  - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - ssh-add ./clemongo
+  - ssh -i ./clemongo ec2-user@$SERVER_IP_ADDRESS pwd
+  - touch test.txt
