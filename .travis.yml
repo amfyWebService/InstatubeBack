@@ -24,10 +24,11 @@ before_deploy:
   - chmod 600 ./clemongo
   - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - ssh-add ./clemongo
+  - ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "echo $HOME/deploy.sh"
 
 deploy:  
  provider: script
  skip_cleanup: true
- script: ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "sudo /home/ubuntu/deploy.sh"
+ script: ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "sudo $HOME/deploy.sh"
  on:
   branch: master
