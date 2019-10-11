@@ -6,13 +6,13 @@ dart:
 env:
   - DARTANALYZER_FLAGS=--fatal-warnings
 
-install:
-  - gem install coveralls-lcov
-
-script: ./travis.sh
-  
-after_success:
-  - coveralls-lcov --repo-token $COVERALLS_TOKEN coverage/lcov.info
+#install:
+#  - gem install coveralls-lcov
+#
+#script: ./travis.sh
+#
+#after_success:
+#  - coveralls-lcov --repo-token $COVERALLS_TOKEN coverage/lcov.info
   
 cache:
   directories:
@@ -24,11 +24,11 @@ before_deploy:
   - chmod 600 ./clemongo
   - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - ssh-add ./clemongo
-  - ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "echo $HOME/deploy.sh"
+  - ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "cat /home/ubuntu/deploy.sh"
 
 deploy:  
  provider: script
  skip_cleanup: true
- script: ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "sudo $HOME/deploy.sh"
+ script: ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "sudo /home/ubuntu/deploy.sh"
  on:
   branch: master
