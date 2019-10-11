@@ -1,3 +1,5 @@
 #!/bin/bash
 
-ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "sudo \$HOME/deploy.sh"
+ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "sudo ./deploy.sh"
+
+exit 0
