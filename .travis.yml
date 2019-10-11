@@ -28,6 +28,6 @@ before_deploy:
 deploy:  
  provider: script
  skip_cleanup: true
- script: ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS ~/deploy.sh
+ script: ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS "sudo /home/ubuntu/deploy.sh"
  on:
   branch: master
