@@ -2,11 +2,6 @@ language: dart
 
 dart:
   - 2.5.1
-  - stable
-  
-branches:
-  only:
-    - master
 
 env:
   - DARTANALYZER_FLAGS=--fatal-warnings
@@ -23,11 +18,15 @@ cache:
   directories:
   - $HOME/.pub-cache
 
-before_install:
+before_deploy:
   - openssl aes-256-cbc -K $encrypted_ae66d78e757d_key -iv $encrypted_ae66d78e757d_iv -in clemongo.pem.enc -out ./clemongo -d
   - eval "$(ssh-agent -s)"
   - chmod 600 ./clemongo
   - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - ssh-add ./clemongo
-  - ssh -i ./clemongo ec2-user@$SERVER_IP_ADDRESS pwd
-  - ssh -i ./clemongo ec2-user@$SERVER_IP_ADDRESS touch tototidan.txt
+
+deploy:  
+ provider: script
+ script: ssh -i ./clemongo ubuntu@$SERVER_IP_ADDRESS pwd
+ on:
+  branch: master
