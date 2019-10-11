@@ -5,11 +5,6 @@
 # source_gen
 .dart_tool
 
-<<<<<<< HEAD
-coverage/lcov.info
-
-.packages
-=======
 # Files and directories created by pub
 .buildlog
 .packages
@@ -93,4 +88,9 @@ logs/
 *.pem
 .DS_Store
 server_log.txt
->>>>>>> 486e6f4... init angel
+
+test/.test_coverage.dart
+
+coverage_badge.svg
+
+coverage/lcov.info

@@ -22,3 +22,4 @@ dev_dependencies:
   io: ^0.3.2 # For pretty printing.
   pedantic: ^1.0.0 # Enforces Dart style conventions.
   test: ^1.0.0 # For unit testing.
+  test_coverage: ^0.3.0
