@@ -1,4 +1,4 @@
-import 'package:instatube_service/src/models/todo.dart';
+import 'package:instatube_service/src/domain/todo.dart';
 import 'package:angel_framework/angel_framework.dart';
 import 'package:angel_graphql/angel_graphql.dart';
 import 'package:graphql_schema/graphql_schema.dart';
