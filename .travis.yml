@@ -1,0 +1,33 @@
+language: dart
+
+dart:
+  - 2.5.1
+
+env:
+  - DARTANALYZER_FLAGS=--fatal-warnings
+
+install:
+  - gem install coveralls-lcov
+
+script: ./travis.sh
+
+after_success:
+  - coveralls-lcov --repo-token $COVERALLS_TOKEN coverage/lcov.info
+  
+cache:
+  directories:
+  - $HOME/.pub-cache
+
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_ae66d78e757d_key -in clemongo.pem.enc -out ./clemongo -d -iv $encrypted_ae66d78e757d_iv
+  - eval "$(ssh-agent -s)"
+  - chmod 600 ./clemongo
+  - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - ssh-add ./clemongo
+
+deploy:  
+ provider: script
+ skip_cleanup: true
+ script: bash deploy.sh
+ on:
+  branch: master
