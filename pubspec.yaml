@@ -2,7 +2,7 @@ name: instatube_service
 description: An app that's going to be amazing pretty soon.
 publish_to: none # Ensure we don't accidentally publish our private code! ;)
 environment:
-  sdk: '>=2.0.0-dev <3.0.0'
+  sdk: '>=2.2.2 <3.0.0'
 homepage: https://github.com/angel-dart/angel
 dependencies:
   angel_auth: ^2.0.0 # Supports stateless authentication via JWT

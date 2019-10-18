@@ -1,10 +1,11 @@
-library instatube_service.src.routes;
+library instatube_service.src.interface;
 
 import 'package:angel_framework/angel_framework.dart';
 import 'package:angel_static/angel_static.dart';
 import 'package:file/file.dart';
-import 'controllers/controllers.dart' as controllers;
-import '../../infrastructure/graphql/graphql.dart' as graphql;
+import 'package:instatube_service/src/interface/users_service.dart' as services;
+
+import '../infrastructure/graphql/graphql.dart' as graphql;
 
 /// Put your app routes here!
 ///
@@ -14,12 +15,12 @@ import '../../infrastructure/graphql/graphql.dart' as graphql;
 AngelConfigurer configureServer(FileSystem fileSystem) {
   return (Angel app) async {
     // Typically, you want to mount controllers first, after any global middleware.
-    await app.configure(controllers.configureServer);
+    await app.configure(services.configureServer);
 
     // Mount our GraphQL routes as well.
     await app.configure(graphql.configureServer);
 
-    // Render `views/hello.jl` when a user visits the application root.
+    // Render `views/hello.jl` when a user.dart visits the application root.
     app.get('/', (req, res) => res.render('hello'));
 
     // Mount static server at web in development.
@@ -52,8 +53,7 @@ AngelConfigurer configureServer(FileSystem fileSystem) {
     app.errorHandler = (e, req, res) async {
       if (req.accepts('text/html', strict: true)) {
         if (e.statusCode == 404 && req.accepts('text/html', strict: true)) {
-          await res
-              .render('error', {'message': 'No file exists at ${req.uri}.'});
+          await res.render('error', {'message': 'No file exists at ${req.uri}.'});
         } else {
           await res.render('error', {'message': e.message});
         }

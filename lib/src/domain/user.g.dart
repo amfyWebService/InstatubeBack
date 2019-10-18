@@ -1,14 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todo.dart';
+part of 'user.dart';
 
 // **************************************************************************
 // JsonModelGenerator
 // **************************************************************************
 
 @generatedSerializable
-class Todo extends _Todo {
-  Todo({this.id, this.createdAt, this.updatedAt, this.text, this.isComplete});
+class User extends _User {
+  User(
+      {this.id,
+      this.createdAt,
+      this.updatedAt,
+      this.username,
+      this.email,
+      this.password});
 
   /// A unique identifier corresponding to this item.
   @override
@@ -23,46 +29,52 @@ class Todo extends _Todo {
   DateTime updatedAt;
 
   @override
-  final String text;
+  final String username;
 
   @override
-  final bool isComplete;
+  final String email;
 
-  Todo copyWith(
+  @override
+  final String password;
+
+  User copyWith(
       {String id,
       DateTime createdAt,
       DateTime updatedAt,
-      String text,
-      bool isComplete}) {
-    return Todo(
+      String username,
+      String email,
+      String password}) {
+    return User(
         id: id ?? this.id,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
-        text: text ?? this.text,
-        isComplete: isComplete ?? this.isComplete);
+        username: username ?? this.username,
+        email: email ?? this.email,
+        password: password ?? this.password);
   }
 
   bool operator ==(other) {
-    return other is _Todo &&
+    return other is _User &&
         other.id == id &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt &&
-        other.text == text &&
-        other.isComplete == isComplete;
+        other.username == username &&
+        other.email == email &&
+        other.password == password;
   }
 
   @override
   int get hashCode {
-    return hashObjects([id, createdAt, updatedAt, text, isComplete]);
+    return hashObjects([id, createdAt, updatedAt, username, email, password]);
   }
 
   @override
   String toString() {
-    return "Todo(id=$id, createdAt=$createdAt, updatedAt=$updatedAt, text=$text, isComplete=$isComplete)";
+    return "User(id=$id, createdAt=$createdAt, updatedAt=$updatedAt, username=$username, email=$email, password=$password)";
   }
 
   Map<String, dynamic> toJson() {
-    return TodoSerializer.toMap(this);
+    return UserSerializer.toMap(this);
   }
 }
 
@@ -70,31 +82,31 @@ class Todo extends _Todo {
 // SerializerGenerator
 // **************************************************************************
 
-const TodoSerializer todoSerializer = TodoSerializer();
+const UserSerializer userSerializer = UserSerializer();
 
-class TodoEncoder extends Converter<Todo, Map> {
-  const TodoEncoder();
+class UserEncoder extends Converter<User, Map> {
+  const UserEncoder();
 
   @override
-  Map convert(Todo model) => TodoSerializer.toMap(model);
+  Map convert(User model) => UserSerializer.toMap(model);
 }
 
-class TodoDecoder extends Converter<Map, Todo> {
-  const TodoDecoder();
+class UserDecoder extends Converter<Map, User> {
+  const UserDecoder();
 
   @override
-  Todo convert(Map map) => TodoSerializer.fromMap(map);
+  User convert(Map map) => UserSerializer.fromMap(map);
 }
 
-class TodoSerializer extends Codec<Todo, Map> {
-  const TodoSerializer();
+class UserSerializer extends Codec<User, Map> {
+  const UserSerializer();
 
   @override
-  get encoder => const TodoEncoder();
+  get encoder => const UserEncoder();
   @override
-  get decoder => const TodoDecoder();
-  static Todo fromMap(Map map) {
-    return Todo(
+  get decoder => const UserDecoder();
+  static User fromMap(Map map) {
+    return User(
         id: map['id'] as String,
         createdAt: map['created_at'] != null
             ? (map['created_at'] is DateTime
@@ -106,11 +118,12 @@ class TodoSerializer extends Codec<Todo, Map> {
                 ? (map['updated_at'] as DateTime)
                 : DateTime.parse(map['updated_at'].toString()))
             : null,
-        text: map['text'] as String,
-        isComplete: map['is_complete'] as bool);
+        username: map['username'] as String,
+        email: map['email'] as String,
+        password: map['password'] as String);
   }
 
-  static Map<String, dynamic> toMap(_Todo model) {
+  static Map<String, dynamic> toMap(_User model) {
     if (model == null) {
       return null;
     }
@@ -118,19 +131,21 @@ class TodoSerializer extends Codec<Todo, Map> {
       'id': model.id,
       'created_at': model.createdAt?.toIso8601String(),
       'updated_at': model.updatedAt?.toIso8601String(),
-      'text': model.text,
-      'is_complete': model.isComplete
+      'username': model.username,
+      'email': model.email,
+      'password': model.password
     };
   }
 }
 
-abstract class TodoFields {
+abstract class UserFields {
   static const List<String> allFields = <String>[
     id,
     createdAt,
     updatedAt,
-    text,
-    isComplete
+    username,
+    email,
+    password
   ];
 
   static const String id = 'id';
@@ -139,22 +154,25 @@ abstract class TodoFields {
 
   static const String updatedAt = 'updated_at';
 
-  static const String text = 'text';
+  static const String username = 'username';
 
-  static const String isComplete = 'is_complete';
+  static const String email = 'email';
+
+  static const String password = 'password';
 }
 
 // **************************************************************************
 // _GraphQLGenerator
 // **************************************************************************
 
-/// Auto-generated from [Todo].
-final GraphQLObjectType todoGraphQLType =
-    objectType('Todo', isInterface: false, interfaces: [], fields: [
+/// Auto-generated from [User].
+final GraphQLObjectType userGraphQLType =
+    objectType('User', isInterface: false, interfaces: [], fields: [
   field('id', graphQLString),
   field('created_at', graphQLDate),
   field('updated_at', graphQLDate),
-  field('text', graphQLString),
-  field('is_complete', graphQLBoolean),
+  field('username', graphQLString),
+  field('email', graphQLString),
+  field('password', graphQLString),
   field('idAsInt', graphQLInt)
 ]);

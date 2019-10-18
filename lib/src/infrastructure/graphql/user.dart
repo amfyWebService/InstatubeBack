@@ -1,11 +1,11 @@
 import 'package:angel_framework/angel_framework.dart';
 import 'package:angel_graphql/angel_graphql.dart';
 import 'package:graphql_schema/graphql_schema.dart';
-import 'package:instatube_service/src/domain/todo.dart';
+import 'package:instatube_service/src/domain/user.dart';
 
 /// Find or create an in-memory Todo store.
-MapService _getTodoService(Angel app) {
-  const key = 'todoService';
+MapService _getService(Angel app) {
+  const key = 'userService';
 
   // If there is already an existing singleton, return it.
   if (app.container.hasNamed(key)) {
@@ -24,20 +24,20 @@ MapService _getTodoService(Angel app) {
 }
 
 /// Returns fields to be inserted into the query type.
-Iterable<GraphQLObjectField> todoQueryFields(Angel app) {
-  var todoService = _getTodoService(app);
+Iterable<GraphQLObjectField> userQueryFields(Angel app) {
+  var service = _getService(app);
 
   // Here, we use special resolvers to read data from our store.
   return [
     field(
-      'todos',
-      listOf(todoGraphQLType),
-      resolve: resolveViaServiceIndex(todoService),
+      'users',
+      listOf(userGraphQLType),
+      resolve: resolveViaServiceIndex(service),
     ),
     field(
-      'todo',
-      todoGraphQLType,
-      resolve: resolveViaServiceRead(todoService),
+      'user',
+      userGraphQLType,
+      resolve: resolveViaServiceRead(service),
       inputs: [
         GraphQLFieldInput('id', graphQLString.nonNullable()),
       ],
@@ -46,27 +46,27 @@ Iterable<GraphQLObjectField> todoQueryFields(Angel app) {
 }
 
 /// Returns fields to be inserted into the query type.
-Iterable<GraphQLObjectField> todoMutationFields(Angel app) {
-  var todoService = _getTodoService(app);
-  var todoInputType = todoGraphQLType.toInputObject('TodoInput');
+Iterable<GraphQLObjectField> userMutationFields(Angel app) {
+  var service = _getService(app);
+  var inputType = userGraphQLType.toInputObject('UserInput');
 
   // This time, we use resolvers to modify the data in the store.
   return [
     field(
-      'createTodo',
-      todoGraphQLType,
-      resolve: resolveViaServiceCreate(todoService),
+      'createUser',
+      userGraphQLType,
+      resolve: resolveViaServiceCreate(service),
       inputs: [
-        GraphQLFieldInput('data', todoInputType.nonNullable()),
+        GraphQLFieldInput('data', inputType.nonNullable()),
       ],
     ),
     field(
-      'modifyTodo',
-      todoGraphQLType,
-      resolve: resolveViaServiceModify(todoService),
+      'modifyUser',
+      userGraphQLType,
+      resolve: resolveViaServiceModify(service),
       inputs: [
         GraphQLFieldInput('id', graphQLString.nonNullable()),
-        GraphQLFieldInput('data', todoInputType.nonNullable()),
+        GraphQLFieldInput('data', inputType.nonNullable()),
       ],
     ),
   ];
