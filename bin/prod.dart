@@ -1,6 +1,6 @@
-import 'package:instatube_service/instatube_service.dart';
 import 'package:angel_container/mirrors.dart';
 import 'package:angel_production/angel_production.dart';
+import 'package:instatube_service/instatube_service.dart';
 
 // NOTE: By default, the Runner class does not use the `MirrorsReflector`, or any
 // reflector, by default.
@@ -25,6 +25,4 @@ import 'package:angel_production/angel_production.dart';
 // so in the meantime, visit the Angel chat for further questions:
 //
 // https://gitter.im/angel_dart/discussion
-main(List<String> args) =>
-    Runner('instatube_service', configureServer, reflector: MirrorsReflector())
-        .run(args);
+main(List<String> args) => Runner('instatube_service', configureServer, reflector: MirrorsReflector()).run(args);
