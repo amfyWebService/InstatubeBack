@@ -1,3 +1,6 @@
 # Production-only server configuration
 debug: false
 jwt_secret: "G5jWftnuAvfOdnoUDG7RXGf0RxlhhkSw"
+host: $HOST
+mongo_db: $MONGO_URL
+port: $PORT
