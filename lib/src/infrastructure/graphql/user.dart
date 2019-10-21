@@ -1,31 +1,26 @@
 import 'package:angel_framework/angel_framework.dart';
 import 'package:angel_graphql/angel_graphql.dart';
+import 'package:angel_mongo/angel_mongo.dart';
 import 'package:graphql_schema/graphql_schema.dart';
 import 'package:instatube_service/src/domain/user.dart';
+import 'package:instatube_service/src/infrastructure/noConnectionFound.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 
 /// Find or create an in-memory Todo store.
-MapService _getService(Angel app) {
-  const key = 'userService';
+MongoService _mongoService(Angel app) {
+  const key = 'mongoDb';
 
   // If there is already an existing singleton, return it.
-  if (app.container.hasNamed(key)) {
-    return app.container.findByName<MapService>(key);
-  }
-
-  // Create an in-memory service. We will use this
-  // as the backend to store Todo objects, serialized to Maps.
-  var mapService = MapService();
-
-  // Register this service as a named singleton in the app container,
-  // so that we do not inadvertently create another instance.
-  app.container.registerNamedSingleton(key, mapService);
-
-  return mapService;
+  if (!app.container.hasNamed(key)) {
+    throw NoConnectionFound().reason;
+  } 
+  var db = app.container.findByName<Db>(key);
+  return new MongoService(db.collection("users"));
 }
 
 /// Returns fields to be inserted into the query type.
 Iterable<GraphQLObjectField> userQueryFields(Angel app) {
-  var service = _getService(app);
+  var service = _mongoService(app);
 
   // Here, we use special resolvers to read data from our store.
   return [
@@ -47,7 +42,7 @@ Iterable<GraphQLObjectField> userQueryFields(Angel app) {
 
 /// Returns fields to be inserted into the query type.
 Iterable<GraphQLObjectField> userMutationFields(Angel app) {
-  var service = _getService(app);
+  var service = _mongoService(app);
   var inputType = userGraphQLType.toInputObject('UserInput');
 
   // This time, we use resolvers to modify the data in the store.

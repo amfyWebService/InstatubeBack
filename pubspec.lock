@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  angel_mongo:
+    dependency: "direct main"
+    description:
+      name: angel_mongo
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   angel_production:
     dependency: "direct main"
     description:
@@ -162,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  bson:
+    dependency: transitive
+    description:
+      name: bson
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   build:
     dependency: transitive
     description:
@@ -519,6 +533,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
+  mongo_dart:
+    dependency: transitive
+    description:
+      name: mongo_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.6"
+  mongo_dart_query:
+    dependency: transitive
+    description:
+      name: mongo_dart_query
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
+  more:
+    dependency: transitive
+    description:
+      name: more
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.18.0"
   multi_server_socket:
     dependency: transitive
     description:
@@ -807,4 +842,4 @@ packages:
     source: hosted
     version: "2.2.0"
 sdks:
-  dart: ">=2.3.0 <3.0.0"
+  dart: ">=2.4.0 <3.0.0"
