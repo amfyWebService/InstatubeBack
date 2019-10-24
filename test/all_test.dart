@@ -19,19 +19,19 @@ import 'package:mongo_dart/mongo_dart.dart';
 // If you are unfamiliar with Dart's advanced testing library, you can read up
 // here:
 // https://github.com/dart-lang/test
-// main() async {
-//   TestClient client;
+ main() async {
+   TestClient client;
    
-//   setUp(() async {
-//     var app = Angel();
-//     await app.configure(configureServer);
+   setUp(() async {
+     var app = Angel();
+     await app.configure(configureServer);
 
-//     client = await connectTo(app);
-//   });
+     client = await connectTo(app);
+   });
 
-//   tearDown(() async {
-//     await client.close();
-//   });
+   tearDown(() async {
+     await client.close();
+   });
 
 //   test('index returns 200', () async {
 //     // Request a resource at the given path.
@@ -40,4 +40,4 @@ import 'package:mongo_dart/mongo_dart.dart';
 //     // Expect a 200 response.
 //     expect(response, hasStatus(200));
 //   });
-// }
+}
