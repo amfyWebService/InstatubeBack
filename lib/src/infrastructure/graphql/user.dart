@@ -15,7 +15,7 @@ MongoService _mongoService(Angel app) {
     throw NoConnectionFound().reason;
   } 
   var db = app.container.findByName<Db>(key);
-  return new MongoService(db.collection("users"));
+  return MongoService(db.collection("users"));
 }
 
 /// Returns fields to be inserted into the query type.

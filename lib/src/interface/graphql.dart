@@ -2,7 +2,7 @@ import 'package:angel_framework/angel_framework.dart';
 import 'package:angel_graphql/angel_graphql.dart';
 import 'package:graphql_server/graphql_server.dart';
 
-import 'schema.dart';
+import 'package:instatube_service/src/application/schema.dart';
 
 /// Configures the [app] to server GraphQL.
 void configureServer(Angel app) {

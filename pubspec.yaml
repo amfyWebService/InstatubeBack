@@ -24,3 +24,4 @@ dev_dependencies:
   pedantic: ^1.0.0 # Enforces Dart style conventions.
   test: ^1.0.0 # For unit testing.
   test_coverage: ^0.3.0
+  mockito: ^4.1.1
