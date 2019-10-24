@@ -7,6 +7,13 @@ part "user.g.dart";
 @serializable
 abstract class _User extends Model {
   String get username;
+
   String get email;
+
   String get password;
 }
+
+final GraphQLObjectType userTokenGraphQLType = objectType('User', isInterface: false, interfaces: [], fields: [
+  field('token', graphQLString),
+  field('user', userGraphQLType),
+]);
