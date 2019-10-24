@@ -5,7 +5,7 @@ import 'package:angel_static/angel_static.dart';
 import 'package:file/file.dart';
 import 'package:instatube_service/src/interface/users_service.dart' as services;
 
-import '../infrastructure/graphql/graphql.dart' as graphql;
+import 'graphql.dart' as graphql;
 
 /// Put your app routes here!
 ///
