@@ -3,6 +3,7 @@ import 'package:angel_graphql/angel_graphql.dart';
 import 'package:angel_mongo/angel_mongo.dart';
 import 'package:graphql_schema/graphql_schema.dart';
 import 'package:instatube_service/src/domain/user.dart';
+import 'package:instatube_service/src/domain/user_service.dart';
 import 'package:instatube_service/src/infrastructure/noConnectionFound.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -13,7 +14,7 @@ MongoService _mongoService(Angel app) {
   // If there is already an existing singleton, return it.
   if (!app.container.hasNamed(key)) {
     throw NoConnectionFound().reason;
-  } 
+  }
   var db = app.container.findByName<Db>(key);
   return MongoService(db.collection("users"));
 }
@@ -64,5 +65,13 @@ Iterable<GraphQLObjectField> userMutationFields(Angel app) {
         GraphQLFieldInput('data', inputType.nonNullable()),
       ],
     ),
+    field('register', userGraphQLType, resolve: resolveViaServiceRegister(service), inputs: [
+      GraphQLFieldInput('username', graphQLString.nonNullable()),
+      GraphQLFieldInput('password', graphQLString.nonNullable()),
+    ]),
+    field('login', userTokenGraphQLType, resolve: resolveViaServiceLogin(service), inputs: [
+      GraphQLFieldInput('username', graphQLString.nonNullable()),
+      GraphQLFieldInput('password', graphQLString.nonNullable()),
+    ])
   ];
 }
