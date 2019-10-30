@@ -31,7 +31,7 @@ GraphQLFieldResolver<Value, Serialized> resolveViaServiceRegister<Value, Seriali
     String password = arguments['password'] as String;
 
     try {
-      Map user = await service.findOne({
+     await service.findOne({
         "query": {"username": username}
       }) as Map;
     } catch (e) {
