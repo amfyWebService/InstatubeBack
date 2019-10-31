@@ -74,3 +74,16 @@ GraphQLFieldResolver<Map, Serialized> resolveViaServiceLogin<Value, Serialized>(
     return {"token": token, "user": user};
   };
 }
+
+/// A GraphQL resolver that `creates` a single value in an Angel service.
+///
+/// This resolver should be used on a field with at least the following input:
+/// * `data`: a [GraphQLObjectType] corresponding to the format of `data` to be passed to `create`
+///
+/// The arguments passed to the resolver will be forwarded to the service, and the
+/// service will receive [Providers.graphql].
+GraphQLFieldResolver<Map, Serialized> resolveViaServiceUserMe<Value, Serialized>(Service<dynamic, Value> service) {
+  return (_, arguments) async {
+    return (arguments['__requestctx'] as RequestContext).session['user'] as Map;
+  };
+}

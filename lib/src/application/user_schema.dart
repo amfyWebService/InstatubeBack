@@ -3,6 +3,7 @@ import 'package:angel_framework/src/core/server.dart';
 import 'package:angel_graphql/angel_graphql.dart';
 import 'package:graphql_schema/graphql_schema.dart';
 import 'package:instatube_service/src/application/base_schema.dart';
+import 'package:instatube_service/src/domain/auth_service.dart' as auth;
 import 'package:instatube_service/src/domain/user.dart';
 import 'package:instatube_service/src/domain/user_service.dart';
 import 'package:instatube_service/src/infrastructure/mongo_service_app.dart';
@@ -52,15 +53,20 @@ class UserSchema extends BaseSchema {
       field(
         'users',
         listOf(userGraphQLType),
-        resolve: resolveViaServiceIndex(service),
+        resolve: auth.resolveAuth(resolveViaServiceIndex(service)),
       ),
       field(
         'user',
         userGraphQLType,
-        resolve: resolveViaServiceRead(service),
+        resolve: auth.resolveAuth(resolveViaServiceRead(service)),
         inputs: [
           GraphQLFieldInput('id', graphQLString.nonNullable()),
         ],
+      ),
+      field(
+        'me',
+        userGraphQLType,
+        resolve: auth.resolveAuth(resolveViaServiceUserMe(service)),
       ),
     ];
   }
