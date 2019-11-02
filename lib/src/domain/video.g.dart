@@ -15,7 +15,7 @@ class Video extends _Video {
       this.userId,
       this.title,
       this.description,
-      this.path});
+      this.filename});
 
   /// A unique identifier corresponding to this item.
   @override
@@ -39,7 +39,7 @@ class Video extends _Video {
   final String description;
 
   @override
-  final String path;
+  final String filename;
 
   Video copyWith(
       {String id,
@@ -48,7 +48,7 @@ class Video extends _Video {
       String userId,
       String title,
       String description,
-      String path}) {
+      String filename}) {
     return Video(
         id: id ?? this.id,
         createdAt: createdAt ?? this.createdAt,
@@ -56,7 +56,7 @@ class Video extends _Video {
         userId: userId ?? this.userId,
         title: title ?? this.title,
         description: description ?? this.description,
-        path: path ?? this.path);
+        filename: filename ?? this.filename);
   }
 
   bool operator ==(other) {
@@ -67,18 +67,18 @@ class Video extends _Video {
         other.userId == userId &&
         other.title == title &&
         other.description == description &&
-        other.path == path;
+        other.filename == filename;
   }
 
   @override
   int get hashCode {
     return hashObjects(
-        [id, createdAt, updatedAt, userId, title, description, path]);
+        [id, createdAt, updatedAt, userId, title, description, filename]);
   }
 
   @override
   String toString() {
-    return "Video(id=$id, createdAt=$createdAt, updatedAt=$updatedAt, userId=$userId, title=$title, description=$description, path=$path)";
+    return "Video(id=$id, createdAt=$createdAt, updatedAt=$updatedAt, userId=$userId, title=$title, description=$description, filename=$filename)";
   }
 
   Map<String, dynamic> toJson() {
@@ -129,7 +129,7 @@ class VideoSerializer extends Codec<Video, Map> {
         userId: map['user_id'] as String,
         title: map['title'] as String,
         description: map['description'] as String,
-        path: map['path'] as String);
+        filename: map['filename'] as String);
   }
 
   static Map<String, dynamic> toMap(_Video model) {
@@ -143,7 +143,7 @@ class VideoSerializer extends Codec<Video, Map> {
       'user_id': model.userId,
       'title': model.title,
       'description': model.description,
-      'path': model.path
+      'filename': model.filename
     };
   }
 }
@@ -156,7 +156,7 @@ abstract class VideoFields {
     userId,
     title,
     description,
-    path
+    filename
   ];
 
   static const String id = 'id';
@@ -171,7 +171,7 @@ abstract class VideoFields {
 
   static const String description = 'description';
 
-  static const String path = 'path';
+  static const String filename = 'filename';
 }
 
 // **************************************************************************
@@ -187,6 +187,6 @@ final GraphQLObjectType videoGraphQLType =
   field('user_id', graphQLString),
   field('title', graphQLString),
   field('description', graphQLString),
-  field('path', graphQLString),
+  field('filename', graphQLString),
   field('idAsInt', graphQLInt)
 ]);

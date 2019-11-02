@@ -1,7 +1,7 @@
+import 'package:angel_auth/angel_auth.dart';
 import 'package:angel_framework/angel_framework.dart';
 import 'package:graphql_schema/graphql_schema.dart';
-import 'package:instatube_service/src/infrastructure/mongo_service_app.dart';
-import 'package:jaguar_jwt/jaguar_jwt.dart';
+import 'package:instatube_service/src/domain/user.dart';
 
 Map<String, dynamic> _fetchRequestInfo(Map<String, dynamic> arguments) {
   return <String, dynamic>{
@@ -24,34 +24,11 @@ Map<String, dynamic> _getQuery(Map<String, dynamic> arguments) {
 /// service will receive [Providers.graphql].
 GraphQLFieldResolver<dynamic, Serialized> resolveAuth<Value, Serialized>(GraphQLFieldResolver<dynamic, Serialized> resolver) {
   return (_, arguments) async {
-    RequestContext req = arguments['__requestctx'] as RequestContext;
+    await requireAuthentication<User>()(
+      (arguments['__requestctx'] as RequestContext), 
+      (arguments['__responsectx'] as ResponseContext), 
+      );
 
-    var authHeader = req.headers.value('authorization');
-    if (authHeader == null) {
-      throw AngelHttpException.notAuthenticated();
-    }
-
-    var listAuthHeader = authHeader.split(' ');
-
-    if (listAuthHeader.length != 2) {
-      throw AngelHttpException.notAuthenticated();
-    }
-
-    var token = listAuthHeader[1];
-    var jwtKey = req.app.configuration['jwt_secret'] as String;
-
-    try {
-      final JwtClaim decClaimSet = verifyJwtHS256Signature(token, jwtKey);
-      decClaimSet.validate();
-
-      var userId = decClaimSet.subject;
-      var userMongoService = mongoServiceApp(req.app, "users");
-      var user = await userMongoService.findOne({"id": userId});
-      req.session['user'] = user;
-
-      return resolver(_, arguments);
-    } catch (e) {
-      throw AngelHttpException.notAuthenticated(message: "401 Wrong token");
-    }
+      return await resolver(_, arguments);
   };
 }

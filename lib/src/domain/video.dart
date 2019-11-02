@@ -12,10 +12,5 @@ abstract class _Video extends Model {
 
   String get description;
 
-  String get path;
+  String get filename;
 }
-
-final GraphQLObjectType userVideoGraphQLType = objectType('Video', isInterface: false, interfaces: [], fields: [
-  field('userId', graphQLString),  
-  field('video', graphQLString),
-]);
