@@ -3,12 +3,13 @@ import 'package:angel_framework/src/core/server.dart';
 import 'package:angel_graphql/angel_graphql.dart';
 import 'package:graphql_schema/graphql_schema.dart';
 import 'package:instatube_service/src/application/base_schema.dart';
-import 'package:instatube_service/src/domain/user.dart';
+import 'package:instatube_service/src/domain/auth_service.dart';
 import 'package:instatube_service/src/domain/video.dart';
+import 'package:instatube_service/src/domain/video_service.dart';
 import 'package:instatube_service/src/infrastructure/mongo_service_app.dart';
 
 class VideoSchema extends BaseSchema {
-  final modelInputType = userGraphQLType.toInputObject('VideoInput');
+  final modelInputType = videoGraphQLType.toInputObject('VideoInput');
 
   VideoSchema(Angel app) : super(app, mongoServiceApp(app, "videos"));
 
@@ -19,7 +20,7 @@ class VideoSchema extends BaseSchema {
       field(
         'createVideo',
         videoGraphQLType,
-        resolve: resolveViaServiceCreate(service),
+        resolve: resolveAuth(resolveCreateVideo(service)),
         inputs: [
           GraphQLFieldInput('data', modelInputType.nonNullable()),
         ],
