@@ -17,8 +17,10 @@ dependencies:
   dbcrypt: ^1.0.0
   jaguar_jwt: ^2.1.6
   meta: ^1.1.7
+  path: ^1.6.4
+  uuid: ^2.0.2
 dev_dependencies:
-  angel_hot: ^2.0.0 # Hot-reloading support. :)
+  angel_hot: ^2.0.6 # Hot-reloading support. :)
   angel_serialize_generator: # Generates serialization code, and more.
   angel_test: ^2.0.0 # Utilities for testing Angel servers.
   build_runner: ^1.0.0 # Runs code builders.

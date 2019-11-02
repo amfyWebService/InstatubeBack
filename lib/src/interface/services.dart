@@ -1,9 +1,15 @@
 library instatube_service.src.interface;
 
+import 'dart:async';
+
 import 'package:angel_framework/angel_framework.dart';
 import 'package:angel_static/angel_static.dart';
 import 'package:file/file.dart';
+import 'package:instatube_service/src/domain/user.dart';
+import 'package:instatube_service/src/infrastructure/mongo_service_app.dart';
+import 'package:instatube_service/src/interface/rest_service.dart';
 import 'package:instatube_service/src/interface/users_service.dart' as services;
+import 'package:jaguar_jwt/jaguar_jwt.dart';
 
 import 'graphql.dart' as graphql;
 
@@ -14,11 +20,15 @@ import 'graphql.dart' as graphql;
 /// * https://github.com/angel-dart/angel/wiki/Requests-&-Responses
 AngelConfigurer configureServer(FileSystem fileSystem) {
   return (Angel app) async {
+    app.fallback(authMiddleware);
+
+//    await app.configure(AuthService().configureServer);
     // Typically, you want to mount controllers first, after any global middleware.
     await app.configure(services.configureServer);
 
     // Mount our GraphQL routes as well.
     await app.configure(graphql.configureServer);
+    await app.configure(RestService().configureServer);
 
     // Render `views/hello.jl` when a user.dart visits the application root.
     app.get('/', (req, res) => res.render('hello'));
@@ -62,4 +72,32 @@ AngelConfigurer configureServer(FileSystem fileSystem) {
       }
     };
   };
+}
+
+FutureOr<dynamic> authMiddleware(RequestContext req, res) async {
+  var authHeader = req.headers.value('authorization');
+  if (authHeader != null) {
+    var listAuthHeader = authHeader.split(' ');
+
+    if (listAuthHeader.length == 2) {
+      var token = listAuthHeader[1];
+      var jwtKey = req.app.configuration['jwt_secret'] as String;
+
+      try {
+        final JwtClaim decClaimSet = verifyJwtHS256Signature(token, jwtKey);
+        decClaimSet.validate();
+
+        var userId = decClaimSet.subject;
+        var userMongoService = mongoServiceApp(req.app, "users");
+        var userMap = await userMongoService.findOne({"id": userId});
+        User user = UserSerializer.fromMap(userMap);
+        req.container.registerSingleton(user);
+//        req.session['user'] = user;
+      } catch (e) {
+//        throw AngelHttpException.notAuthenticated(message: "401 Wrong token");
+      }
+    }
+  }
+
+  return true;
 }
