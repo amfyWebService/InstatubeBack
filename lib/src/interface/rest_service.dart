@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 @Expose("/")
 class RestService extends Controller {
-  static const ALLOWED_VIDEO_TYPE = "mp4";
+  static const ALLOWED_VIDEO_TYPES = ["mp4", "mov"];
 
 //  @Expose("/test")
 //  test(RequestContext req, ResponseContext res, User user) async {
@@ -27,18 +27,17 @@ class RestService extends Controller {
     await requireAuthentication<User>()(req, res);
     await req.parseBody();
 
-    if (req.uploadedFiles.isEmpty ||
-        req.uploadedFiles.first.contentType.type != 'video')
+    if (req.uploadedFiles.isEmpty || req.uploadedFiles.first.contentType.type != 'video')
       throw AngelHttpException.badRequest(message: "Please upload a video.");
 
     var file = req.uploadedFiles.first;
 
-    if (file.contentType.subtype != ALLOWED_VIDEO_TYPE) {
+    if (!ALLOWED_VIDEO_TYPES.contains(file.contentType.subtype)) {
       throw AngelHttpException.badRequest(message: "Video type not supported");
     }
     var user = req.container.make<User>();
     var generateFileName = _generateFileName(file);
-        await _saveVideo(file, generateFileName, user.id);
+    await _saveVideo(file, generateFileName, user.id);
 
     //await res.jsonp({"filename": generateFileName});
     await res.serialize({"filename": generateFileName});
@@ -46,9 +45,7 @@ class RestService extends Controller {
   }
 
   _saveVideo(UploadedFile file, String filename, String userId) async {
-    var destFile = await File(path.join(
-            this.app.configuration['path_video'] as String, userId, filename))
-        .create(recursive: true);
+    var destFile = await File(path.join(this.app.configuration['path_video'] as String, userId, filename)).create(recursive: true);
     await file.data.pipe(destFile.openWrite());
   }
 
