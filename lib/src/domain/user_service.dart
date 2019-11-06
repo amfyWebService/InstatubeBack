@@ -1,6 +1,7 @@
 import 'package:angel_framework/angel_framework.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:graphql_schema/graphql_schema.dart';
+import 'package:instatube_service/src/domain/user.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 
 Map<String, dynamic> _fetchRequestInfo(Map<String, dynamic> arguments) {
@@ -84,6 +85,6 @@ GraphQLFieldResolver<Map, Serialized> resolveViaServiceLogin<Value, Serialized>(
 /// service will receive [Providers.graphql].
 GraphQLFieldResolver<Map, Serialized> resolveViaServiceUserMe<Value, Serialized>(Service<dynamic, Value> service) {
   return (_, arguments) async {
-    return (arguments['__requestctx'] as RequestContext).session['user'] as Map;
+    return (arguments['__requestctx'] as RequestContext).container.make<User>().toJson();
   };
 }
