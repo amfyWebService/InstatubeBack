@@ -8,7 +8,6 @@ import 'package:file/file.dart';
 import 'package:instatube_service/src/domain/user.dart';
 import 'package:instatube_service/src/infrastructure/mongo_service_app.dart';
 import 'package:instatube_service/src/interface/rest_service.dart';
-import 'package:instatube_service/src/interface/users_service.dart' as services;
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 
 import 'graphql.dart' as graphql;
@@ -24,13 +23,14 @@ AngelConfigurer configureServer(FileSystem fileSystem) {
 
 //    await app.configure(AuthService().configureServer);
     // Typically, you want to mount controllers first, after any global middleware.
-    await app.configure(services.configureServer);
+    // await app.configure(services.configureServer);
 
     // Mount our GraphQL routes as well.
     await app.configure(graphql.configureServer);
     await app.configure(RestService().configureServer);
 
     // Render `views/hello.jl` when a user.dart visits the application root.
+  
     app.get('/', (req, res) => res.render('hello'));
 
     // Mount static server at web in development.
@@ -89,7 +89,7 @@ FutureOr<dynamic> authMiddleware(RequestContext req, res) async {
 
         var userId = decClaimSet.subject;
         var userMongoService = mongoServiceApp(req.app, "users");
-        var userMap = await userMongoService.findOne({"id": userId});
+        var userMap = await userMongoService.findOne({"id": userId}) as Map;
         User user = UserSerializer.fromMap(userMap);
         req.container.registerSingleton(user);
 //        req.session['user'] = user;

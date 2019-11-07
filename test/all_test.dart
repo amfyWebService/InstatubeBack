@@ -1,8 +1,8 @@
 import 'package:instatube_service/instatube_service.dart';
 import 'package:angel_framework/angel_framework.dart';
+import 'package:angel_container/mirrors.dart';
 import 'package:angel_test/angel_test.dart';
 import 'package:test/test.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 
 // Angel also includes facilities to make testing easier.
 //
@@ -20,12 +20,12 @@ import 'package:mongo_dart/mongo_dart.dart';
 // here:
 // https://github.com/dart-lang/test
  main() async {
+   Angel app;
    TestClient client;
    
    setUp(() async {
-     var app = Angel();
+     app = Angel(environment: AngelEnvironment("TEST"), reflector: MirrorsReflector());
      await app.configure(configureServer);
-
      client = await connectTo(app);
    });
 
@@ -33,11 +33,11 @@ import 'package:mongo_dart/mongo_dart.dart';
      await client.close();
    });
 
-//   test('index returns 200', () async {
-//     // Request a resource at the given path.
-//     var response = await client.get('/');
+  test('index returns 200', () async {
+    // Request a resource at the given path.
+    var response = await client.get('/');
 
-//     // Expect a 200 response.
-//     expect(response, hasStatus(200));
-//   });
+    // Expect a 200 response.
+    expect(response, hasStatus(200));
+  });
 }
