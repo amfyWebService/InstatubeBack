@@ -12,11 +12,6 @@ Map<String, dynamic> _fetchRequestInfo(Map<String, dynamic> arguments) {
   };
 }
 
-Map<String, dynamic> _getQuery(Map<String, dynamic> arguments) {
-  var f = Map<String, dynamic>.from(arguments)..remove('id')..remove('data');
-  return f.isEmpty ? null : {};
-}
-
 /// A GraphQL resolver that `creates` a single value in an Angel service.
 ///
 /// This resolver should be used on a field with at least the following input:
@@ -37,6 +32,16 @@ GraphQLFieldResolver<Value, Serialized> resolveCreateVideo<Value, Serialized>(Se
     data['user_id'] = user.id;
 
     return service.create(data as Value);
+  };
+}
+
+GraphQLFieldResolver<List<Value>, Serialized>
+    resolveViaServiceFindAllBy<Value, Serialized>(Service<dynamic, Value> service) {
+  return (_, arguments) async {
+    var _requestInfo = _fetchRequestInfo(arguments);
+    var params = {'query': arguments, 'provider': Providers.graphQL}
+      ..addAll(_requestInfo);
+    return service.index(params);
   };
 }
 
