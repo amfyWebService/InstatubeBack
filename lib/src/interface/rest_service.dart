@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 @Expose("/")
 class RestService extends Controller {
-  static const ALLOWED_VIDEO_TYPES = ["mp4", "mov"];
+  static const ALLOWED_VIDEO_TYPES = ["mp4", "quicktime"];
 
 //  @Expose("/test")
 //  test(RequestContext req, ResponseContext res, User user) async {
@@ -33,7 +33,8 @@ class RestService extends Controller {
     var file = req.uploadedFiles.first;
 
     if (!ALLOWED_VIDEO_TYPES.contains(file.contentType.subtype.toLowerCase())) {
-      throw AngelHttpException.badRequest(message: "Video type not supported");
+      throw AngelHttpException.badRequest(
+          message: "Video type not supported. {subtype: ${file.contentType.subtype.toLowerCase()} }");
     }
     var user = req.container.make<User>();
     var generateFileName = _generateFileName(file);
