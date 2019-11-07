@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:angel_framework/angel_framework.dart';
 
 Future configureServer(Angel app) async {
-  if(app.environment.value != "TEST"){
+  if(app.environment.value != "test"){
     // Include any plugins you have made here.
     var db = Db(app.configuration['mongo_db'] as String);
     await db.open();
