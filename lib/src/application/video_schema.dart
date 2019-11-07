@@ -53,6 +53,14 @@ class VideoSchema extends BaseSchema {
           GraphQLFieldInput('id', graphQLString.nonNullable()),
         ],
       ),
+      field(
+        'videosByUserId',
+        listOf(videoGraphQLType),
+        resolve: resolveViaServiceFindAllBy(service),
+        inputs: [
+          GraphQLFieldInput('user_id', graphQLString),
+        ]
+      ),
     ];
   }
 }
