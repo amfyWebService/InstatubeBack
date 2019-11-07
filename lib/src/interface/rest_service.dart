@@ -32,7 +32,7 @@ class RestService extends Controller {
 
     var file = req.uploadedFiles.first;
 
-    if (!ALLOWED_VIDEO_TYPES.contains(file.contentType.subtype)) {
+    if (!ALLOWED_VIDEO_TYPES.contains(file.contentType.subtype.toLowerCase())) {
       throw AngelHttpException.badRequest(message: "Video type not supported");
     }
     var user = req.container.make<User>();
@@ -45,7 +45,8 @@ class RestService extends Controller {
   }
 
   _saveVideo(UploadedFile file, String filename, String userId) async {
-    var destFile = await File(path.join(this.app.configuration['path_video'] as String, userId, filename)).create(recursive: true);
+    var destFile =
+        await File(path.join(this.app.configuration['path_video'] as String, userId, filename)).create(recursive: true);
     await file.data.pipe(destFile.openWrite());
   }
 
