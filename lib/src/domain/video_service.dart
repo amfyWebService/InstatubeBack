@@ -35,17 +35,6 @@ GraphQLFieldResolver<Value, Serialized> resolveCreateVideo<Value, Serialized>(Se
   };
 }
 
-GraphQLFieldResolver<List<Value>, Serialized>
-    resolveViaServiceFindAllBy<Value, Serialized>(Service<dynamic, Value> service) {
-  return (_, arguments) async {
-    var _requestInfo = _fetchRequestInfo(arguments);
-    var params = {'query': arguments, 'provider': Providers.graphQL}
-      ..addAll(_requestInfo);
-    return service.index(params);
-  };
-}
-
-File getFile(User user, String filename, Angel app){
-  return File(path.join(
-            app.configuration['path_video'] as String, user.id, filename));
+File getFile(User user, String filename, Angel app) {
+  return File(path.join(app.configuration['path_video'] as String, user.id, filename));
 }

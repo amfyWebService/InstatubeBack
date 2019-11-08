@@ -19,8 +19,7 @@ Future configureServer(Angel app) async {
   // Set up our application, using the plug-ins defined with this project.
   await app.configure(configuration.configureServer(fs));
 
-  if(app.environment.isDevelopment)
-    configurePathVideoConfig(app);
+  if (app.environment.isDevelopment) configurePathVideoConfig(app);
 //  await app.configure(services.configureServer);
   await app.configure(routes.configureServer(fs));
 }
