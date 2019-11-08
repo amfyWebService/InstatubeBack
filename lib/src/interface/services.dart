@@ -27,10 +27,10 @@ AngelConfigurer configureServer(FileSystem fileSystem) {
 
     // Mount our GraphQL routes as well.
     await app.configure(graphql.configureServer);
-    await app.configure(RestService().configureServer);
+    await app.configure(RestService(fileSystem).configureServer);
 
     // Render `views/hello.jl` when a user.dart visits the application root.
-  
+
     app.get('/', (req, res) => res.render('hello'));
 
     // Mount static server at web in development.

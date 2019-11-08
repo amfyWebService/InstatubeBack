@@ -32,7 +32,6 @@ GraphQLFieldResolver<Map, Serialized> resolvePagination<Value, Serialized>(Servi
     // Db query
     var params = {'query': arguments['where'], 'provider': Providers.graphQL}..addAll(_requestInfo);
     List<dynamic> items = await service.index(params);
-    print(items.length);
     // Post treatment
     int totalCount = items.length;
     if (limit < 0) limit = 0;
