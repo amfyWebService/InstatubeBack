@@ -46,6 +46,7 @@ class VideoSchema extends BaseSchema {
         GraphQLFieldInput('first', graphQLInt),
         GraphQLFieldInput('last', graphQLInt),
         GraphQLFieldInput('cursor', graphQLInt),
+        GraphQLFieldInput('where', modelInputType),
 //        GraphQLFieldInput('title', graphQLString),
       ]),
       field(

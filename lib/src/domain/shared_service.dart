@@ -40,15 +40,16 @@ GraphQLFieldResolver<Map, Serialized> resolvePagination<Value, Serialized>(Servi
       items = items.reversed.toList();
     }
 
-    var endIndex = min(offset + limit, totalCount);
+    var endIndex = max(min(offset + limit, totalCount - 1), 0);
     var currentCursor = 0;
     items = items.getRange(offset, endIndex).map((item) => {"node": item, "cursor": currentCursor++}).toList();
-
+//    print("offset $offset, limit $limit, count $totalCount, endIndex $endIndex");
+    bool hasNextPage = (totalCount != 0 ?? endIndex < totalCount);
     // Response
     return {
       "totalCount": totalCount,
       "edges": items,
-      "pageInfo": {"hasNextPage": endIndex <= totalCount}
+      "pageInfo": {"hasNextPage": hasNextPage}
     };
   };
 }
